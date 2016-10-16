@@ -1,0 +1,43 @@
+[{
+	"id":1,
+	"type":"单选题",
+	"level":"中等",
+	"department":"JavaEE",
+	"topics":"css",
+	"stem":"一加一等于几？",
+	"upPerson":"wangyiming",
+	"from":"百度",
+	"upDate":"2016-09-08",
+	"times":"0次",
+	"analysis":"这是一段答案解析",
+	"answer":"",
+	"choices":[{"id":"A","content":"这是A答案的问题题干","correct":true},{"id":"B","content":"这是B答案的问题题干","correct":false},{"id":"C","content":"这C答案的问题题干","correct":false},{"id":"D","content":"这是D答案的问题题干","correct":false}]
+},{
+	"id":2,
+	"type":"多选题",
+	"level":"简单",
+	"department":"WebUI",
+	"topics":"css",
+	"stem":"一加2等于几？",
+	"upPerson":"licy",
+	"from":"谷歌",
+	"upDate":"2016-09-09",
+	"times":"1次",
+	"analysis":"这是一段答案解析",
+	"answer":"",
+	"choices":[{"id":"A","content":"这是A答案的问题题干","correct":true},{"id":"B","content":"这是B答案的问题题干","correct":false},{"id":"C","content":"这C答案的问题题干","correct":false},{"id":"D","content":"这是D答案的问题题干","correct":true}]
+},{
+	"id":3,
+	"type":"简答题",
+	"level":"中等",
+	"department":"IOS",
+	"topics":"css",
+	"stem":"一加一等于几？",
+	"upPerson":"wangyiming",
+	"from":"self",
+	"upDate":"2016-09-012",
+	"times":"2次",
+	"analysis":"这是一段答案解析",
+	"answer":"这是简答题的答案",
+	"choices":[]
+}]

@@ -1,0 +1,159 @@
+
+<script type="text/javascript">
+$(function(){
+	
+	//请求json 显示全部试题
+	$.get("tpl/data/paper.json",function(data){
+			
+			data.forEach(function(con,index){
+				var titleStr="";
+				for(var key in con){
+						
+						var p=$("<p>");
+						if(key=="analysis"){
+								p.html(con[key]);
+								p.attr("dis","dis");
+								
+							}
+							
+					 	if(key=="stem"){
+							p.html(con[key]);
+		
+						}
+						
+						$(".Catalogcontentup").eq(index).append(p);
+						
+						switch(key){
+							case "id":titleStr+="题号:"+con[key]+"&nbsp;&nbsp;&nbsp;&nbsp;";
+							break;
+							case "type":titleStr+="题型:"+con[key]+"&nbsp;&nbsp;&nbsp;&nbsp;";
+							break;
+							case "level":titleStr+="难度等级:"+con[key]+"&nbsp;&nbsp;&nbsp;&nbsp;";
+							break;
+							case "upPerson":titleStr+="上传人:"+con[key]+"&nbsp;&nbsp;&nbsp;&nbsp;";
+							break;
+							case "from":titleStr+="来源:"+con[key]+"&nbsp;&nbsp;&nbsp;&nbsp;";
+							break;
+							case "upDate":titleStr+="上传时间:"+con[key]+"&nbsp;&nbsp;&nbsp;&nbsp;";
+							break;
+							}
+						
+						
+						
+					}
+					$(".Catalogtitwo").eq(index).html(titleStr);
+				});
+					$("p[dis='dis']").hide();
+					$(".Catalogtitle").children("input").on("change",function(){
+					if($(this).prop("checked")){
+						$("p[dis='dis']").show();
+					}else{
+						$("p[dis='dis']").hide();
+					}
+					});
+
+			
+		});
+	
+
+});
+</script>
+				<!--题干列表-->
+                <div class="editingarea">
+                    <div class="c_flex"><span class="c_flexible"></span></div>
+                	<div class="c_editview">
+                   <div class="c_condition">
+                       <span><select><option>题干</option></select></span>
+                       <span class="pl5 " ><input type="text"></span>
+                       <span class="pl15 pr15 btn_gray ">查找</span>
+                     
+                    </div>
+                    <div class="divtable">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablea">
+                        	<tr>
+                                <td align="center">题型</td>
+                                <td align="left">
+                                    <div class="chose">
+                                    	<a href="#" class="active3">全部</a>
+                                        <a href="#">单选题</a>
+                                        <a href="#">多选题</a>
+                                        <a href="#">简答题</a>
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td align="center">方向</td>
+                                <td align="left">
+                                    <div class="chose">
+                                    	<a href="#" class="active3">全部</a>
+                                        <a href="#">WebUI</a>
+                                        <a href="#">JavaEE</a>
+                                        <a href="#">Android</a>
+                                        <a href="#">IOS</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td align="center">知识点</td>
+                                <td align="left">
+                                    <div class="chose">
+                                    	<a href="#" class="active3">全部</a>
+                                        <a href="#">Html</a>
+                                        <a href="#">JavaScript</a>
+                                        <a href="#">CSS</a>
+                                        <a href="#">jQuery</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">难度</td>
+                                <td align="left">
+                                    <div class="chose">
+                                    	<a href="#" class="active3">全部</a>
+                                        <a href="#">容易</a>
+                                        <a href="#">中等</a>
+                                        <a href="#">难</a>  
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </div>
+                       <div class="Catalog">
+                           
+                           <div class="Catalog_right">
+                               <div class="Catalogtitle">
+                               	总计<em>15552</em>道题&nbsp;&nbsp;
+                                <input type="checkbox" />
+                                <b>显示答案和解析</b>&nbsp;&nbsp;
+                               
+                                <!--
+                                   <div>
+                                       <i>1</i>
+                                       <a href="#" class="pageone">前</a>
+                                       <a href="#" class="pagetwo">后</a>
+                                   </div>
+                               -->
+                               </div>
+                               <div class="Catalog_rightnei">
+                                    <div class="Catalogtitwo"></div>
+                                    <div class="Catalogcontent">
+                                        <div class="Catalogcontentup">
+                                        	
+                                        </div>
+                                       
+                                    </div>
+                               </div>
+                               <div class="Catalog_rightnei">
+                                    <div class="Catalogtitwo"></div>
+                                    <div class="Catalogcontent">
+                                      <div class="Catalogcontentup"></div>
+                                      
+                                    </div>
+                               </div>
+                           </div>
+                           <div class="clear"></div>
+                       </div>
+                    </div>
+                </div>

@@ -1,0 +1,307 @@
+
+<script type="text/javascript">
+$(function(){
+	//单个添加
+	$(".icon_add").off("click");
+	$(".icon_add").on("click",function(){
+		var addUrl = "tpl/subject/subjectAdd.html?time="+new Date().getTime();
+		$(".right").load(addUrl);
+	});
+	
+	
+	//默认加载json-type
+	$.get("tpl/data/type.json",function(data){
+			data.forEach(function(con,index){
+				
+				$(".chose1").append("<a href='#'>"+con.realName+"</a>");
+				});
+				
+			//点击改变样式
+	
+			$(".chose1").children("a").on("click",function(){
+					
+					if(!$(this).hasClass("active3")){
+						
+						//先清除已有点击样式
+						$(".chose1").children("a").removeClass("active3");
+						//设置当前点击样式
+						$(this).addClass("active3");
+						
+						searchFun();
+						
+						
+						
+					}
+				});
+			
+		});
+	
+		//默认加载jsondepartment
+		$.get("tpl/data/department.json",function(data){
+				data.forEach(function(con,index){
+						$(".chose2").append("<a href='#'>"+con.realName+"</a>");
+					});
+					
+				$(".chose2").children("a").on("click",function(){
+			
+				if(!$(this).hasClass("active3")){
+					
+					//先清除已有点击样式
+					$(".chose2").children("a").removeClass("active3");
+					//设置当前点击样式
+					$(this).addClass("active3");
+					
+					searchFun();
+					
+					}
+				});
+			});
+		
+		//默认加载json-topics
+		$.get("tpl/data/topics.json",function(data){
+				data.forEach(function(con,index){
+						$(".chose3").append("<a href='#'>"+con.realName+"<a>");
+					});
+					
+				$(".chose3").children("a").on("click",function(){
+			
+				if(!$(this).hasClass("active3")){
+					
+					//先清除已有点击样式
+					$(".chose3").children("a").removeClass("active3");
+					//设置当前点击样式
+					$(this).addClass("active3");
+					searchFun();
+					}
+				});
+			});
+		
+		
+		//默认加载json-level
+		$.get("tpl/data/level.json",function(data){
+				data.forEach(function(con,index){
+						$(".chose4").append("<a href='#'>"+con.realName+"<a>");
+					});
+				
+				$(".chose4").children("a").on("click",function(){
+			
+				if(!$(this).hasClass("active3")){
+					
+					//先清除已有点击样式
+					$(".chose4").children("a").removeClass("active3");
+					//设置当前点击样式
+					$(this).addClass("active3");
+					
+					searchFun();
+					
+					}
+				});
+			});
+			
+			
+		//封装查询方法
+		searchFun();
+		function searchFun(){
+			
+				//条件筛选查询
+		var searchObj={};	//声明一个空对象用来承载用户点击的条件
+		//获取到所有的div(每一行)，进行遍历，拿到用户点击的值
+		$(".chose").each(function(index,con){
+				var clickVal=$(con).children("a.active3").html();
+				var tdHtml=$(con).parent().prev().html();
+				
+				
+				//与不同行之间进行匹配，将每一行的选项放到对象中
+				
+				switch(tdHtml){
+						case "题型":searchObj["type"]=clickVal;
+						break;
+						case "方向":searchObj["department"]=clickVal;
+						break;
+						case "知识点":searchObj["topics"]=clickVal;
+						break;
+						case "难度":searchObj["level"]=clickVal;
+						break;
+					}	
+			});
+			
+			//获取到全部题目的json数据，与对象进行匹配
+			$.post("tpl/data/paper.json",function(data){
+					if(searchObj.type!="全部"){
+							data=data.filter(function(con,index){
+									
+									return searchObj.type==con.type;
+								});
+						}
+					
+					if(searchObj.department!="全部"){
+							data=data.filter(function(con,index){
+									return searchObj.department==con.department;
+								});
+						}
+						
+					if(searchObj.topics!="全部"){
+							data=data.filter(function(con,index){
+									return searchObj.topics==con.topics;
+								});
+						}
+					
+					if(searchObj.level!="全部"){
+							data=data.filter(function(con,index){
+									return searchObj.level==con.level;
+								});
+						}
+					//每次添加数据前先进行数据清空Catalogcontentup
+					$(".Catalogtitwo").each(function(index,con){
+							$(this).html("");
+							$(".Catalogcontentup").eq(index).html("");
+						});
+					
+					
+					//将获取到的数据进行遍历取值，放在下方数据框中
+					data.forEach(function(con,index){
+						var str="";//创建空字符串，用来拼接字符串进行显示
+						for(var key in con){
+								switch(key){
+									case "id":str+="题号："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									case "type":str+="题型："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									case "level":str+="难度等级："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									case "upPerson":str+="上传人："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									case "from":str+="来源："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									case "upDate":str+="上传时间："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									case "times":str+="审阅次数："+con[key]+"&nbsp;&nbsp;&nbsp;";
+									break;
+									}
+								// 大的数据框中需要添加两个隐藏数据，在点击显示时在进行显示
+								var p=$("<p>");
+								if(key=="stem"){
+									p.html(con[key]);
+									
+									}
+								
+								if(key=="analysis"){
+									p.html(con[key]);
+									p.attr("flag","analysis");
+									}
+								$(".Catalogcontentup").eq(index).append(p);
+							
+							}
+						//将封装好的字符串放在数据框中 1
+						$(".Catalogtitwo").eq(index).html(str);
+						//获取到显示答案解析的input，进行显示答案解析
+						//默认隐藏
+						$("p[flag='analysis']").hide();
+						$(".Catalogtitle").children("input").on("change",function(){
+								if($(this).prop("checked")){
+									$("p[flag='analysis']").show();
+									}else{
+										$("p[flag='analysis']").hide();
+									}
+							});
+						
+						
+						});
+				});	
+				
+			}	
+		
+	
+
+});
+</script>
+				<div class="editingarea">
+                    <div class="c_flex"><span class="c_flexible"></span></div>
+                	<div class="c_editview">
+                   <div class="c_condition">
+                       <span><select><option>题干</option></select></span>
+                       <span class="pl5 " ><input type="text"></span>
+                       <span class="pl15 pr15 btn_gray ">查找</span>
+                       <span class="icon_add"><em class="icon_r">单个添加题目</em></span>
+                    </div>
+                    <div class="divtable">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablea">
+                        	<tr>
+                                <td align="center">题型</td>
+                                <td align="left">
+                                    <div class="chose chose1">
+                                    	<a href="#" class="active3">全部</a>
+                                       <!-- <a href="#">单选题</a>
+                                        <a href="#">多选题</a>
+                                        <a href="#">简答题</a>-->
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td align="center">方向</td>
+                                <td align="left">
+                                    <div class="chose chose2">
+                                    	<a href="#" class="active3">全部</a>
+                                      <!--  <a href="#">WebUI</a>
+                                        <a href="#">JavaEE</a>
+                                        <a href="#">Android</a>
+                                        <a href="#">IOS</a>-->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td align="center">知识点</td>
+                                <td align="left">
+                                    <div class="chose chose3">
+                                    	<a href="#" class="active3">全部</a>
+                                       <!-- <a href="#">Html</a>
+                                        <a href="#">JavaScript</a>
+                                        <a href="#">CSS</a>
+                                        <a href="#">jQuery</a>-->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">难度</td>
+                                <td align="left">
+                                    <div class="chose chose4">
+                                    	<a href="#" class="active3">全部</a>
+                                       <!-- <a href="#">容易</a>
+                                        <a href="#">中等</a>
+                                        <a href="#">难</a> --> 
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </div>
+                       <div class="Catalog">
+                           <div class="Catalog_right">
+                               <div class="Catalogtitle">总计<em>15552</em>道题&nbsp;&nbsp;
+                               <input type="checkbox" /><b>显示答案和解析</b>&nbsp;&nbsp;<div><a href="#" class="Thispage2">本页全部审核通过</a>				
+                               	<!--
+                               	<i>1</i>
+                                <a href="#" class="pageone">前</a>
+                                <a href="#" class="pagetwo">后</a>
+                                -->
+                                </div></div>
+                               <div class="Catalog_rightnei">
+                                   <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
+                                   <div class="Catalogcontent">
+                                       <div class="Catalogcontentup">题型</div>
+                                       <div class="Catalogcontentdown"><a href="#">审核通过</a><a href="#">审核不通过</a><a href="#">删除题目</a></div>
+                                   </div>
+                               </div>
+                               <div class="Catalog_rightnei">
+                                   <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
+                                   <div class="Catalogcontent">
+                                       <div class="Catalogcontentup">题型</div>
+                                       <div class="Catalogcontentdown"><a href="#">加入试卷</a></div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="clear"></div>
+                       </div>
+                    </div>
+                </div>

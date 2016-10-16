@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/exam.iml" filepath="$PROJECT_DIR$/exam.iml" />
       <module fileurl="file://$PROJECT_DIR$/exam-angularJs/exam-angularJs.iml" filepath="$PROJECT_DIR$/exam-angularJs/exam-angularJs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exan-jquery/exan-jquery.iml" filepath="$PROJECT_DIR$/exan-jquery/exan-jquery.iml" />
     </modules>
   </component>
 </project>
