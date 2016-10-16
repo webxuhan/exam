@@ -127,8 +127,8 @@ angular.module("app.subjectModule",["ng"])
     //题目服务,封装操作题目的函数
     .service("subjectService",["$http","$httpParamSerializer",function ($http,$httpParamSerializer) {
        this.getAllSubjects=function (params,handler) {
-           $http.get("http://172.16.0.5:7777/test/exam/manager/getAllSubjects.action",{params:params}).success(function (data) {
-          //$http.get("data/subjects.json",{params:params}).success(function (data) {
+           //$http.get("http://172.16.0.5:7777/test/exam/manager/getAllSubjects.action",{params:params}).success(function (data) {
+          $http.get("data/subjects.json",{params:params}).success(function (data) {
                handler(data);
            });
        };
